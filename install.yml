@@ -1,5 +1,6 @@
+# install.yml
 ---
-
+# ansible-playbook install.yml -i inventory/cluster/hosts.ini
 - hosts: k3s_cluster
   gather_facts: yes
   become: yes
@@ -17,3 +18,8 @@
   become: yes
   roles:
     - role: k3s/node
+
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+    - role: copy-config

@@ -1,5 +1,6 @@
+# reset.yml
 ---
-
+# ansible-playbook reset.yml -i inventory/cluster/hosts.ini
 - hosts: k3s_cluster
   gather_facts: yes
   become: yes
