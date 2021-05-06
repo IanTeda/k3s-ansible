@@ -1,0 +1,33 @@
+# rancher.yml
+---
+# https://docs.ansible.com/ansible/latest//collections/kubernetes/core/helm_module.html
+
+- name: Add rancher helm repository
+  kubernetes.core.helm_repository:
+    name: rancher-latest
+    repo_url: "{{ rancher_repo }}"
+
+- name: Install rancher
+  kubernetes.core.helm:
+    release_state: present
+    update_repo_cache: yes
+    name: rancher
+    chart_ref: rancher-latest/rancher
+    release_namespace: cattle-system
+    create_namespace: yes
+    values:
+      hostname: "{{ rancher_hostname }}"
+    wait: yes # wait for pods to be ready
+
+# https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
+# add rancher.home.crt to keychain access
+- name: Get rancher.home TLS certificate secret
+  community.kubernetes.k8s_info:
+    kind: secret
+    name: tls-rancher-ingress
+    namespace: cattle-system
+  register: tls_secret
+
+- name: Decode base64 tls secret
+  shell: |
+    echo "{{ tls_secret.resources[0].data['tls.crt'] | b64decode }}" > rancher.home.crt

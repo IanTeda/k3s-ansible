@@ -51,3 +51,9 @@
     path: /etc/sudoers
     validate: 'visudo -cf %s'
   when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
+
+- name: Install apt packages across cluster
+  apt:
+    update_cache: yes
+    name: '{{ apt_packages }}'
+    state: latest

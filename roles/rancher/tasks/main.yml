@@ -1,0 +1,7 @@
+# main.yml
+---
+- name: Install cert-manager
+  import_tasks: cert-manager.yml
+
+- name: Install Rancher
+  import_tasks: rancher.yml

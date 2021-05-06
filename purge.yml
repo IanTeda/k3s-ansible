@@ -1,0 +1,11 @@
+# purge.yml
+---
+# ansible-playbook purge.yml -i inventory/cluster/hosts.ini
+
+# Reset cluster
+- name: Reset cluster
+  import_playbook: reset
+
+# Install k3s
+- name: Install k3s
+  import_playbook: install.yml
