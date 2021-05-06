@@ -4,7 +4,7 @@
 
 # Reset cluster
 - name: Reset cluster
-  import_playbook: reset
+  import_playbook: reset.yml
 
 # Install k3s
 - name: Install k3s

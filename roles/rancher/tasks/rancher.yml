@@ -31,3 +31,8 @@
 - name: Decode base64 tls secret
   shell: |
     echo "{{ tls_secret.resources[0].data['tls.crt'] | b64decode }}" > rancher.home.crt
+
+# - name: Decode base64 tls secret
+#   copy:
+#     content: "{{ tls_secret.resources[0].data['tls.crt'] | b64decode }}"
+#     dest: /tmp/rancher.home.crt
