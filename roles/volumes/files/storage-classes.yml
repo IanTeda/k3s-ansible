@@ -1,0 +1,29 @@
+---
+# Custom basic storage class (not backed up with raid)
+# We are not dynamically allocating storage, so it isn't needed.
+# Doing for completeness
+# Alt. PV & PVC storageClassName can also be left "" when pre-binding
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  # worland-basic should be nominated as the storageClassName in PV & PVC
+  name: worland-basic
+# Required: but can be what ever you like for internal provisioning
+provisioner: worland-nfs
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+
+---
+# Custom raid 1 storage class
+# We are not dynamically allocating storage, so it isn't needed.
+# Doing for completeness
+# Alt. PV & PVC storageClassName can also be left "" when pre-binding
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  # worland-basic should be nominated as the storageClassName in PV & PVC
+  name: worland-raid
+# Required: but can be what ever you like for internal provisioning
+provisioner: worland-nfs
+reclaimPolicy: Retain
+allowVolumeExpansion: true

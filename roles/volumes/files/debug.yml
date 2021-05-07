@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+
+# -- Deployment Metadata ---
+metadata:
+  name: busybox-debug
+  namespace: databases
+  # Labels help with filtering
+  labels:
+    app: busybox-debug
+
+spec:
+  containers:
+  # Docker image
+  - name: busybox
+    # Docker release
+    image: busybox:latest
+    command:
+      - sleep
+      - "3600"
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: "1"
+      requests:
+        memory: 256Mi
+        cpu: "0.2"
+    volumeMounts:
+      - name: debug-data
+        mountPath: /tmp
+    imagePullPolicy: IfNotPresent
+  # Volume to associate with volume mount
+  volumes:
+    - name: debug-data
+      persistentVolumeClaim:
+        claimName: databases-claim
+  # To keep Pod running continuously specify a task that will never finish.
+  restartPolicy: Never

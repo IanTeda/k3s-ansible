@@ -17,7 +17,11 @@
     create_namespace: yes
     values:
       hostname: "{{ rancher_hostname }}"
-    wait: yes # wait for pods to be ready
+    # wait: yes # wait for pods to be ready
+    # wait_timeout: 5m
+
+- name: Wait for rancher rollout
+  command: kubectl -n cattle-system rollout status deploy/rancher
 
 # https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
 # add rancher.home.crt to keychain access

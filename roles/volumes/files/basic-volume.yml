@@ -1,0 +1,24 @@
+# worland-database-pv.yaml
+---
+# Database RAID volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: basic-volume
+spec:
+  # Volume allocation
+  capacity:
+    storage: 1000Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  # Bind (retain) to pvc before claim
+  # # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reserving-a-persistentvolume
+  storageClassName: "worland-basic"
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    server: "192.168.100.14"
+    path: "/volume4/Cluster_Basic_Storage"
+    readOnly: false

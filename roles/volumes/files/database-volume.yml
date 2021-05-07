@@ -1,0 +1,28 @@
+# worland-database-pv.yaml
+---
+# Database RAID volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: databases-volume
+  # Persistent volumes don't have namespaces as they are set by cluster administrators.
+spec:
+  # Volume allocation
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  # Bind (retain) to pvc before claim
+  # # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reserving-a-persistentvolume
+  storageClassName: "worland-raid"
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  claimRef:
+    name: databases-claim
+    namespace: databases
+  nfs:
+    server: "192.168.100.14"
+    path: "/volume2/Databases"
+    readOnly: false
